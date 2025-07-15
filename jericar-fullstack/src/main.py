@@ -10,6 +10,8 @@ from src.routes.user import user_bp
 app = Flask(__name__, static_folder=os.path.join(os.path.dirname(__file__), 'static'))
 app.config['SECRET_KEY'] = 'asdf#FGSgvasgf$5$WGT'
 
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL")
+
 app.register_blueprint(user_bp, url_prefix='/api')
 
 # uncomment if you need to use database
