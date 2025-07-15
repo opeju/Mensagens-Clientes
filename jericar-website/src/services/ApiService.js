@@ -1,7 +1,10 @@
+const BASE_URL = import.meta.env.VITE_API_URL || '/api';
+
+
 // Serviço para comunicação com a API do servidor
 const ApiService = {
   // URL base da API (será definida automaticamente)
-  baseURL: '/api',
+  baseURL: BASE_URL,
 
   // Fazer requisição HTTP
   async request(endpoint, options = {}) {

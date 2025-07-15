@@ -8,42 +8,18 @@ const MensagensDoDia = () => {
   const [buscaTexto, setBuscaTexto] = useState('');
 
   // Dados de exemplo - em produção viriam do localStorage ou API
-  const mensagensExemplo = [
-    {
-      id: 1,
-      cliente: { nome: 'João Silva', numeroReserva: 'RES001', quantidadePessoas: 2 },
-      dataServicos: '2025-07-04',
-      dataCriacao: '2025-07-04T08:30:00',
-      servicos: [
-        {
-          tipo: 'Transfer Aeroporto',
-          horarioEmbarque: '14:00',
-          localEmbarque: 'Aeroporto Internacional',
-          localDesembarque: 'Hotel Praia Mar'
-        }
-      ],
-      status: 'pendente',
-      mensagemGerada: 'Mensagem de exemplo...'
-    },
-    {
-      id: 2,
-      cliente: { nome: 'Maria Santos', numeroReserva: 'RES002', quantidadePessoas: 4 },
-      dataServicos: '2025-07-04',
-      dataCriacao: '2025-07-04T09:15:00',
-      servicos: [
-        {
-          tipo: 'City Tour',
-          horarioEmbarque: '09:00',
-          localEmbarque: 'Hotel Central',
-          localDesembarque: 'Hotel Central'
-        }
-      ],
-      status: 'enviada',
-      timestampEnvio: '2025-07-04T09:20:00'
-    }
-  ];
+  import { useEffect } from 'react';
+  import ApiService from '../services/ApiService';
 
-  const [mensagens, setMensagens] = useState(mensagensExemplo);
+const [mensagens, setMensagens] = useState([]);
+const [carregando, setCarregando] = useState(true);
+
+useEffect(() => {
+  ApiService.listarMensagens()
+    .then((dados) => setMensagens(dados))
+    .catch((erro) => console.error('Erro ao buscar mensagens:', erro))
+    .finally(() => setCarregando(false));
+}, []);
 
   const mensagensFiltradas = mensagens.filter(msg => {
     const matchData = msg.dataServicos === dataFiltro;
